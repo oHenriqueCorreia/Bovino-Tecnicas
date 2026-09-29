@@ -277,10 +277,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Checkout demonstrativo: substitua esta função pelo seu link de pagamento.
+    const checkoutUrls = {
+        planoCompleto: 'https://pay.cakto.com.br/35x7dv8_1151805'
+    };
+
     if (btnComprarCompleto) {
         btnComprarCompleto.addEventListener('click', () => {
-            simulateCheckout('Plano Completo', 19.90);
+            window.location.assign(checkoutUrls.planoCompleto);
         });
     }
 
