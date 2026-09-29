@@ -279,7 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const checkoutUrls = {
         planoCompleto: 'https://pay.cakto.com.br/35x7dv8_1151805',
-        planoBasico: 'https://pay.cakto.com.br/35juzto_1151899'
+        planoBasico: 'https://pay.cakto.com.br/35juzto_1151899',
+        planoCompletoPromocional: 'https://pay.cakto.com.br/35juzto_1151899'
     };
 
     if (btnComprarCompleto) {
@@ -304,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnUpsellAccept) {
         btnUpsellAccept.addEventListener('click', () => {
             closeUpsell();
-            simulateCheckout('Plano Completo Promocional', 15.90);
+            window.location.assign(checkoutUrls.planoCompletoPromocional);
         });
     }
 
