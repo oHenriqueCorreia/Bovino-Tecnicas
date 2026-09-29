@@ -278,7 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const checkoutUrls = {
-        planoCompleto: 'https://pay.cakto.com.br/35x7dv8_1151805'
+        planoCompleto: 'https://pay.cakto.com.br/35x7dv8_1151805',
+        planoBasico: 'https://pay.cakto.com.br/35juzto_1151899'
     };
 
     if (btnComprarCompleto) {
@@ -296,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnCloseUpsell) btnCloseUpsell.addEventListener('click', closeUpsell);
     if (btnUpsellDecline) btnUpsellDecline.addEventListener('click', () => {
         closeUpsell();
-        simulateCheckout('Plano Básico', 10.00);
+        window.location.assign(checkoutUrls.planoBasico);
     });
 
     // Modal Action: Accept Upsell
