@@ -2620,8 +2620,9 @@ button {
 }
 
 .demo-slide img {
-    object-fit: cover;
+    object-fit: contain;
     object-position: top center;
+    background: #140c05;
 }
 
 .bonus-wrapper {

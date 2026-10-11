@@ -1,18 +1,16 @@
 // Wait for the DOM to load
 document.addEventListener('DOMContentLoaded', () => {
-    /* Imagens locais otimizadas da galeria interna */
-    const localImageMap = {
-        'https://i.ibb.co/Kxh643pG/img1-timpanismo.png': 'assets/images/internas/timpanismo.jpg',
-        'https://i.ibb.co/My8gf4tL/img2-diarreia-neonatal.png': 'assets/images/internas/diarreia.jpg',
-        'https://i.ibb.co/Bd71hvv/img4-febre-aftosa.png': 'assets/images/internas/febre-aftosa.jpg',
-        'https://i.ibb.co/1tQnFLZY/img1-pneumonia.png': 'assets/images/internas/pneumonia.jpg',
-        'https://i.ibb.co/B22Z2zv8/img1-carrapato.png': 'assets/images/internas/carrapato.jpg',
-        'https://i.ibb.co/WWTLm2NK/img3-leptospirose.png': 'assets/images/internas/leptospirose.jpg',
-        'https://i.ibb.co/S4HvQCFc/img1-dermatite-digital.png': 'assets/images/internas/dermatite-digital.jpg',
-        'https://i.ibb.co/HL1RzKjg/img4-estresse-termico.png': 'assets/images/internas/estresse-termico.jpg'
-    };
-
-    const previewSources = [...new Set(Object.values(localImageMap))];
+    /* Páginas reais do produto usadas na galeria interna */
+    const previewSources = [
+        'assets/images/internas/acao-01-pneumonia.jpg',
+        'assets/images/internas/acao-11-timpanismo.jpg',
+        'assets/images/internas/acao-24-diarreia-neonatal.jpg',
+        'assets/images/internas/acao-41-mastite-clinica.jpg',
+        'assets/images/internas/acao-53-dermatite-digital.jpg',
+        'assets/images/internas/acao-61-hipocalcemia.jpg',
+        'assets/images/internas/acao-77-leptospirose.jpg',
+        'assets/images/internas/acao-91-estresse-termico.jpg'
+    ];
 
     document.querySelectorAll('.marquee-track').forEach((track, rowIndex) => {
         const orderedSources = rowIndex % 2 === 0
@@ -333,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openLightbox = (imgUrl) => {
         const fullImg = document.getElementById('lightbox-full-img');
         if (fullImg) {
-            fullImg.src = localImageMap[imgUrl] || imgUrl;
+            fullImg.src = imgUrl;
         }
         lightboxModal.classList.add('open');
         document.body.style.overflow = 'hidden';
