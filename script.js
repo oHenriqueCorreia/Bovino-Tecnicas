@@ -161,10 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       OFFER NOTIFICATIONS + VERIFIED PURCHASES
-       Default messages only describe facts shown on this page. Real purchase
-       data can be injected through window.RECENT_PURCHASES,
-       window.addPurchaseNotification(...) or the purchase:confirmed event.
+       NOTIFICAÇÕES DE COMPRAS RECENTES
+       Os registros iniciais vêm de purchases.js. Novas vendas também podem ser
+       adicionadas por window.addPurchaseNotification(...) ou pelo evento
+       purchase:confirmed, sem precisar recarregar a página.
        ========================================================================== */
     const offerNotices = [
         {
@@ -195,7 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const configuredPurchases = Array.isArray(window.RECENT_PURCHASES)
         ? window.RECENT_PURCHASES.filter(item => item && item.name && item.product)
         : [];
-    const notificationQueue = [...offerNotices, ...configuredPurchases];
+    const notificationQueue = configuredPurchases.length
+        ? [...configuredPurchases]
+        : [...offerNotices];
     const purchaseToast = document.getElementById('purchase-toast');
     const purchaseToastIcon = document.getElementById('purchase-toast-icon');
     const purchaseToastTitle = document.getElementById('purchase-toast-title');
@@ -215,20 +217,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const isVerifiedPurchase = Boolean(notice.name && notice.product);
         purchaseToastIcon.textContent = isVerifiedPurchase ? '✓' : (notice.icon || '•');
         purchaseToastTitle.textContent = isVerifiedPurchase
-            ? notice.name + ' confirmou a compra'
+            ? notice.name + ' comprou o ' + notice.product
             : notice.title;
         purchaseToastMessage.textContent = isVerifiedPurchase
-            ? [notice.product, notice.location].filter(Boolean).join(' • ')
+            ? notice.location
             : notice.message;
         purchaseToastMeta.textContent = isVerifiedPurchase
-            ? (typeof notice.price === 'number' ? formatBRL.format(notice.price) : String(notice.price || ''))
+            ? [
+                typeof notice.price === 'number' ? formatBRL.format(notice.price) : String(notice.price || ''),
+                notice.time || 'Compra recente'
+            ].filter(Boolean).join(' • ')
             : notice.meta;
 
         purchaseToast.classList.add('is-visible');
         window.clearTimeout(toastHideTimer);
         toastHideTimer = window.setTimeout(() => {
             purchaseToast.classList.remove('is-visible');
-        }, 5200);
+        }, 5600);
     };
 
     const showNextNotification = () => {
@@ -239,8 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (purchaseToast && notificationQueue.length) {
-        toastStartTimer = window.setTimeout(showNextNotification, 2800);
-        toastInterval = window.setInterval(showNextNotification, 10500);
+        toastStartTimer = window.setTimeout(showNextNotification, 2500);
+        toastInterval = window.setInterval(showNextNotification, 11000);
     }
 
     if (purchaseToastClose) {
