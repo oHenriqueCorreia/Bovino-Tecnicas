@@ -566,17 +566,15 @@ button {
 }
 
 .specialist-photo-card {
-    width: min(100%, 500px);
+    width: min(100%, 420px);
     margin: 0;
     position: relative;
 }
 
 .specialist-photo {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    height: auto;
     display: block;
-    object-fit: cover;
-    object-position: center 38%;
     border: 1px solid rgba(220, 157, 38, 0.42);
     border-radius: 24px;
     box-shadow: 0 24px 55px rgba(49, 35, 14, 0.2);
@@ -653,6 +651,41 @@ button {
     font-size: 0.95rem;
     font-weight: 700;
     line-height: 1.45;
+}
+
+.benefits-deliverables {
+    padding: 1.35rem;
+    border: 1px solid rgba(49, 35, 14, 0.11);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: 0 14px 35px rgba(49, 35, 14, 0.07);
+}
+
+.benefits-deliverables-heading {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(49, 35, 14, 0.11);
+}
+
+.benefits-deliverables-heading > span {
+    color: var(--color-accent-gold);
+    font-family: var(--font-titles);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.benefits-deliverables-heading h3 {
+    margin: 0.4rem 0 0.5rem;
+    color: var(--color-brown-dark);
+    font-size: 1.16rem;
+    line-height: 1.3;
+}
+
+.benefits-deliverables .section-explanation {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 .benefits-img-container {
@@ -2087,14 +2120,14 @@ button {
     }
 
     .benefits-container {
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1.18fr);
         align-items: flex-start;
-        gap: clamp(3rem, 7vw, 7rem);
+        gap: clamp(2.5rem, 5vw, 5rem);
     }
 
     .benefits-visual,
     .benefits-content {
-        flex: 1 1 0;
         min-width: 0;
     }
 
@@ -2110,13 +2143,8 @@ button {
         font-size: clamp(2.15rem, 3.4vw, 3rem);
     }
 
-    .specialist-photo-card {
-        position: sticky;
-        top: 4.75rem;
-    }
-
     .benefits-list {
-        gap: 1.4rem;
+        gap: 1.1rem;
     }
 
     .benefits-list li,
