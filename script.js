@@ -161,34 +161,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==========================================================================
-       PURCHASE NOTIFICATIONS
-       Real data can be injected through window.RECENT_PURCHASES,
+       OFFER NOTIFICATIONS + VERIFIED PURCHASES
+       Default messages only describe facts shown on this page. Real purchase
+       data can be injected through window.RECENT_PURCHASES,
        window.addPurchaseNotification(...) or the purchase:confirmed event.
        ========================================================================== */
+    const offerNotices = [
+        {
+            icon: '⚡',
+            title: 'Acesso liberado após a aprovação',
+            message: 'Receba o material digital por e-mail.',
+            meta: 'ACESSO IMEDIATO'
+        },
+        {
+            icon: '7',
+            title: 'Você tem 7 dias de garantia',
+            message: 'Conheça o conteúdo com tranquilidade.',
+            meta: 'COMPRA SEGURA'
+        },
+        {
+            icon: '+',
+            title: 'Plano Completo com bônus',
+            message: 'Leve 3 materiais extras e o certificado.',
+            meta: 'MELHOR ESCOLHA'
+        },
+        {
+            icon: '∞',
+            title: 'Consulte sempre que precisar',
+            message: 'Use no celular, tablet ou computador.',
+            meta: 'ACESSO VITALÍCIO'
+        }
+    ];
     const configuredPurchases = Array.isArray(window.RECENT_PURCHASES)
         ? window.RECENT_PURCHASES.filter(item => item && item.name && item.product)
         : [];
-    const purchaseQueue = [...configuredPurchases];
+    const notificationQueue = [...offerNotices, ...configuredPurchases];
     const purchaseToast = document.getElementById('purchase-toast');
-    const purchaseToastName = document.getElementById('purchase-toast-name');
-    const purchaseToastProduct = document.getElementById('purchase-toast-product');
-    const purchaseToastPrice = document.getElementById('purchase-toast-price');
+    const purchaseToastIcon = document.getElementById('purchase-toast-icon');
+    const purchaseToastTitle = document.getElementById('purchase-toast-title');
+    const purchaseToastMessage = document.getElementById('purchase-toast-message');
+    const purchaseToastMeta = document.getElementById('purchase-toast-meta');
     const purchaseToastClose = document.getElementById('purchase-toast-close');
     const formatBRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-    let purchaseCursor = 0;
+    let notificationCursor = 0;
     let toastHideTimer;
     let toastStartTimer;
     let toastInterval;
     let notificationsDismissed = false;
 
-    const showPurchaseNotification = (purchase) => {
-        if (!purchaseToast || notificationsDismissed || !purchase) return;
+    const showOfferNotification = (notice) => {
+        if (!purchaseToast || notificationsDismissed || !notice) return;
 
-        purchaseToastName.textContent = purchase.name + ' acabou de comprar';
-        purchaseToastProduct.textContent = purchase.product;
-        purchaseToastPrice.textContent = typeof purchase.price === 'number'
-            ? formatBRL.format(purchase.price)
-            : String(purchase.price || '');
+        const isVerifiedPurchase = Boolean(notice.name && notice.product);
+        purchaseToastIcon.textContent = isVerifiedPurchase ? '✓' : (notice.icon || '•');
+        purchaseToastTitle.textContent = isVerifiedPurchase
+            ? notice.name + ' confirmou a compra'
+            : notice.title;
+        purchaseToastMessage.textContent = isVerifiedPurchase
+            ? [notice.product, notice.location].filter(Boolean).join(' • ')
+            : notice.message;
+        purchaseToastMeta.textContent = isVerifiedPurchase
+            ? (typeof notice.price === 'number' ? formatBRL.format(notice.price) : String(notice.price || ''))
+            : notice.meta;
 
         purchaseToast.classList.add('is-visible');
         window.clearTimeout(toastHideTimer);
@@ -197,16 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5200);
     };
 
-    const showNextPurchase = () => {
-        if (!purchaseQueue.length) return;
-        const purchase = purchaseQueue[purchaseCursor % purchaseQueue.length];
-        purchaseCursor += 1;
-        showPurchaseNotification(purchase);
+    const showNextNotification = () => {
+        if (!notificationQueue.length) return;
+        const notice = notificationQueue[notificationCursor % notificationQueue.length];
+        notificationCursor += 1;
+        showOfferNotification(notice);
     };
 
-    if (purchaseToast && purchaseQueue.length) {
-        toastStartTimer = window.setTimeout(showNextPurchase, 1800);
-        toastInterval = window.setInterval(showNextPurchase, 8500);
+    if (purchaseToast && notificationQueue.length) {
+        toastStartTimer = window.setTimeout(showNextNotification, 2800);
+        toastInterval = window.setInterval(showNextNotification, 10500);
     }
 
     if (purchaseToastClose) {
@@ -223,8 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!purchase || !purchase.name || !purchase.product) return;
         notificationsDismissed = false;
 
-        purchaseQueue.push(purchase);
-        showPurchaseNotification(purchase);
+        notificationQueue.push(purchase);
+        showOfferNotification(purchase);
     };
 
     window.addEventListener('purchase:confirmed', (event) => {

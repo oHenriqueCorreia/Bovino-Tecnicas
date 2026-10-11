@@ -194,20 +194,40 @@
             <!-- Seção: O que você vai receber -->
             <section class="benefits-section" id="receber">
                 <div class="container benefits-container">
-                    <div class="benefits-visual">
-                        <div class="benefits-img-container">
-                            <img src="assets/images/produto-beneficios-bovino-em-foco.png" width="900" height="600"
-                                loading="lazy" alt="Produtor apresentando o guia Bovino em Foco com mais de 480 técnicas"
-                                class="benefits-img">
-                        </div>
+                    <div class="benefits-visual specialist-spotlight">
+                        <figure class="specialist-photo-card">
+                            <img src="assets/images/especialista-rafaela-machado.jpg" width="760" height="1351"
+                                loading="lazy"
+                                alt="Rafaela Machado apresentando o material Bovino em Foco em uma propriedade rural"
+                                class="specialist-photo">
+                            <figcaption class="specialist-identity">
+                                <span>À FRENTE DO BOVINO EM FOCO</span>
+                                <strong>Rafaela Machado</strong>
+                                <small>Especialista responsável pelo projeto</small>
+                            </figcaption>
+                        </figure>
                     </div>
 
                     <div class="benefits-content">
                         <span class="section-tag text-left">CONTEÚDO COMPLETO</span>
-                        <h2 class="section-title text-left">O que você vai <span
-                                class="highlight-underline">receber</span> ao garantir seu acesso:</h2>
-                        <p class="section-explanation">Um material metodicamente organizado para atuar como o seu
-                            principal recurso visual de campo e diagnóstico primário.</p>
+                        <h2 class="section-title text-left">Rafaela Machado, à frente de um material feito para a <span
+                                class="highlight-underline">rotina do campo</span></h2>
+
+                        <article class="specialist-story">
+                            <span class="specialist-story-label">POR QUE ESTE MATERIAL FOI CRIADO</span>
+                            <h3>Informação visual para quem precisa observar, entender e agir com responsabilidade.</h3>
+                            <p>Ao estruturar o Bovino em Foco, Rafaela partiu de uma dificuldade comum a produtores,
+                                trabalhadores rurais e estudantes: os sinais aparecem no dia a dia, mas a informação
+                                costuma estar espalhada em conteúdos técnicos difíceis de consultar.</p>
+                            <p>Por isso, o material foi organizado com imagens, marcações e explicações diretas. A ideia
+                                é ajudar quem está no campo a observar melhor, registrar o que mudou e conversar com o
+                                médico-veterinário com informações mais claras.</p>
+                            <p class="specialist-principle"><strong>Princípio do projeto:</strong> o conhecimento
+                                precisa caber na rotina de quem cuida do rebanho todos os dias.</p>
+                        </article>
+
+                        <p class="section-explanation">Você recebe um material visual, organizado e pensado para
+                            consulta rápida — um apoio prático que não substitui o diagnóstico veterinário.</p>
 
                         <ul class="benefits-list">
                             <li>
@@ -802,15 +822,15 @@
         </footer>
     </div>
 
-    <!-- NOTIFICAÇÃO DE COMPRA: recebe dados reais via window.RECENT_PURCHASES ou evento purchase:confirmed -->
+    <!-- AVISOS DA OFERTA: mensagens verificáveis + compras reais quando fornecidas pelo checkout -->
     <aside class="purchase-toast" id="purchase-toast" aria-live="polite" aria-atomic="true">
         <button class="purchase-toast-close" id="purchase-toast-close" type="button"
-            aria-label="Fechar notificações de compra">&times;</button>
-        <div class="purchase-toast-icon" aria-hidden="true">✓</div>
+            aria-label="Fechar avisos da oferta">&times;</button>
+        <div class="purchase-toast-icon" id="purchase-toast-icon" aria-hidden="true">✓</div>
         <div class="purchase-toast-content">
-            <strong class="purchase-toast-name" id="purchase-toast-name"></strong>
-            <span class="purchase-toast-product" id="purchase-toast-product"></span>
-            <span class="purchase-toast-price" id="purchase-toast-price"></span>
+            <strong class="purchase-toast-name" id="purchase-toast-title"></strong>
+            <span class="purchase-toast-product" id="purchase-toast-message"></span>
+            <span class="purchase-toast-price" id="purchase-toast-meta"></span>
         </div>
     </aside>
 
