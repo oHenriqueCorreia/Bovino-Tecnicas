@@ -51,113 +51,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
-       TESTIMONIALS CAROUSEL
-       Use window.CUSTOMER_TESTIMONIALS before this script to provide real reviews.
+       DEPOIMENTOS REAIS EM CARROSSEL INFINITO
        ========================================================================== */
-    const testimonialTemplates = [
-        { role: 'Produtor de gado de corte • MG', text: 'As imagens deixam a consulta muito mais direta quando aparece algum sinal diferente no rebanho.' },
-        { role: 'Produtora rural • GO', text: 'Ter o conteúdo organizado por sinais ajuda a saber o que observar antes de buscar orientação profissional.' },
-        { role: 'Manejador de rebanho • MT', text: 'O formato ilustrado facilita comparar alterações visíveis sem ficar perdido em textos muito técnicos.' },
-        { role: 'Produtor de leite • PR', text: 'Consigo consultar pelo celular no curral e revisar os pontos mais importantes com rapidez.' },
-        { role: 'Trabalhador rural • BA', text: 'As explicações simples ajudam a entender melhor o que merece atenção durante o manejo diário.' },
-        { role: 'Produtor rural • MS', text: 'Gostei da separação dos conteúdos porque encontro o assunto sem precisar procurar em várias fontes.' },
-        { role: 'Estudante de agropecuária • SP', text: 'As marcações nas imagens ajudam muito na revisão visual e tornam o estudo mais fácil de lembrar.' },
-        { role: 'Criador de gado • TO', text: 'É um material prático para conferir sinais e preparar informações melhores para conversar com o veterinário.' },
-        { role: 'Produtora de leite • SC', text: 'A consulta rápida ajuda a observar mudanças de comportamento, pele, locomoção e alimentação com mais atenção.' },
-        { role: 'Capataz de fazenda • PA', text: 'O conteúdo visual funciona bem para orientar a equipe sobre quais alterações não devem passar despercebidas.' },
-        { role: 'Produtor familiar • RS', text: 'A linguagem é acessível e as imagens tornam assuntos difíceis muito mais fáceis de compreender.' },
-        { role: 'Técnico agropecuário • RO', text: 'A organização por situações do dia a dia deixa o material útil tanto para estudo quanto para consulta.' },
-        { role: 'Pecuarista • GO', text: 'Ter tantas referências reunidas economiza tempo quando preciso revisar um sinal observado no lote.' },
-        { role: 'Produtora rural • MG', text: 'O material ajuda a criar uma rotina de observação mais cuidadosa sem substituir a avaliação veterinária.' },
-        { role: 'Manejador • AC', text: 'Os exemplos visuais tornam mais claro o que registrar em foto e relatar ao profissional responsável.' },
-        { role: 'Produtor de corte • MT', text: 'É fácil navegar pelos temas e voltar rapidamente ao conteúdo que eu estava consultando.' },
-        { role: 'Estudante de veterinária • PE', text: 'As ilustrações ajudam a fixar diferenças entre sinais parecidos e complementam meus estudos.' },
-        { role: 'Produtor de leite • ES', text: 'Uso como referência para observar o rebanho com mais método durante a rotina da ordenha.' },
-        { role: 'Administrador rural • MA', text: 'O formato facilita compartilhar orientações de observação com quem trabalha diretamente no manejo.' },
-        { role: 'Criadora de gado • CE', text: 'As explicações objetivas ajudam a reconhecer quando uma alteração precisa de atenção rápida.' },
-        { role: 'Produtor rural • PI', text: 'A variedade de situações ilustradas deixa a consulta mais completa para diferentes fases da criação.' },
-        { role: 'Auxiliar de fazenda • MS', text: 'Consegui entender melhor quais detalhes observar e como descrever o problema ao responsável técnico.' },
-        { role: 'Pecuarista • BA', text: 'O acesso vitalício é útil porque posso revisar o material sempre que surge uma dúvida no campo.' },
-        { role: 'Produtora familiar • PR', text: 'O conteúdo direto, sem excesso de termos complicados, torna a leitura muito mais agradável.' },
-        { role: 'Técnico rural • GO', text: 'As referências visuais ajudam a comparar sinais com mais critério e evitam depender apenas da memória.' },
-        { role: 'Produtor de corte • PA', text: 'O material reúne em um só lugar assuntos que antes eu precisava pesquisar separadamente.' },
-        { role: 'Criador de bezerros • MG', text: 'A parte ilustrada ajuda a prestar mais atenção aos primeiros sinais de mudança nos animais jovens.' },
-        { role: 'Gestora de propriedade • SP', text: 'Achei útil para padronizar a observação do rebanho entre os diferentes membros da equipe.' },
-        { role: 'Produtor de leite • SC', text: 'A possibilidade de consultar no celular torna o conteúdo realmente prático para a rotina da propriedade.' },
-        { role: 'Estudante de zootecnia • RS', text: 'É um apoio visual interessante para revisar sanidade bovina e relacionar teoria com situações de campo.' }
-    ].map((item, index) => ({
-        ...item,
-        name: 'Modelo de relato ' + String(index + 1).padStart(2, '0')
+    const testimonialImages = Array.from({ length: 15 }, (_, index) => ({
+        src: `assets/images/depoimentos/depoimento-whatsapp-${String(index + 1).padStart(2, '0')}.png`,
+        alt: `Depoimento real de cliente ${index + 1}`
     }));
-
-    const configuredTestimonials = Array.isArray(window.CUSTOMER_TESTIMONIALS)
-        ? window.CUSTOMER_TESTIMONIALS.filter(item => item && item.name && item.text)
-        : [];
-    const usingDemoTestimonials = configuredTestimonials.length === 0;
-    const testimonialItems = usingDemoTestimonials ? testimonialTemplates : configuredTestimonials;
     const testimonialsTrack = document.getElementById('testimonials-track');
-    const testimonialsDisclosure = document.querySelector('.testimonials-disclosure');
 
-    if (!usingDemoTestimonials && testimonialsDisclosure) {
-        testimonialsDisclosure.hidden = true;
-    }
-
-    const createTestimonialCard = (item) => {
-        const card = document.createElement('article');
+    const createTestimonialCard = (item, isDuplicate) => {
+        const card = document.createElement('button');
+        card.type = 'button';
         card.className = 'testimonial-card';
+        card.setAttribute('aria-label', `Ampliar ${item.alt.toLowerCase()}`);
+        if (isDuplicate) card.tabIndex = -1;
 
-        const top = document.createElement('div');
-        top.className = 'testimonial-card-top';
+        const image = document.createElement('img');
+        image.src = item.src;
+        image.alt = item.alt;
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.draggable = false;
 
-        const stars = document.createElement('span');
-        stars.className = 'testimonial-stars';
-        stars.setAttribute('aria-label', '5 de 5 estrelas');
-        stars.textContent = '★★★★★';
-
-        const status = document.createElement('span');
-        status.className = 'testimonial-status';
-        status.textContent = usingDemoTestimonials ? 'Conteúdo demonstrativo' : 'Cliente verificado';
-
-        const quote = document.createElement('p');
-        quote.className = 'testimonial-quote';
-        quote.textContent = item.text;
-
-        const person = document.createElement('div');
-        person.className = 'testimonial-person';
-
-        const avatar = document.createElement('span');
-        avatar.className = 'testimonial-avatar';
-        avatar.setAttribute('aria-hidden', 'true');
-        avatar.textContent = item.name
-            .split(/\s+/)
-            .slice(0, 2)
-            .map(part => part.charAt(0))
-            .join('')
-            .toUpperCase();
-
-        const personText = document.createElement('span');
-        const name = document.createElement('strong');
-        name.className = 'testimonial-name';
-        name.textContent = item.name;
-        const role = document.createElement('span');
-        role.className = 'testimonial-role';
-        role.textContent = item.role || item.location || 'Cliente';
-
-        personText.append(name, role);
-        person.append(avatar, personText);
-        top.append(stars, status);
-        card.append(top, quote, person);
+        card.appendChild(image);
+        card.addEventListener('click', () => window.openLightbox(item.src, item.alt));
         return card;
     };
 
-    if (testimonialsTrack && testimonialItems.length) {
+    if (testimonialsTrack) {
+        const fragment = document.createDocumentFragment();
+
         for (let groupIndex = 0; groupIndex < 2; groupIndex += 1) {
             const group = document.createElement('div');
+            const isDuplicate = groupIndex === 1;
             group.className = 'testimonials-group';
-            group.setAttribute('aria-hidden', groupIndex === 1 ? 'true' : 'false');
-            testimonialItems.forEach(item => group.appendChild(createTestimonialCard(item)));
-            testimonialsTrack.appendChild(group);
+            group.setAttribute('aria-hidden', isDuplicate ? 'true' : 'false');
+            testimonialImages.forEach(item => group.appendChild(createTestimonialCard(item, isDuplicate)));
+            fragment.appendChild(group);
         }
+
+        testimonialsTrack.replaceChildren(fragment);
     }
 
     /* ==========================================================================
@@ -367,10 +300,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxCallout = document.getElementById('lightbox-case-callout');
 
     // Global function to be called from inline onclick events
-    window.openLightbox = (imgUrl) => {
+    window.openLightbox = (imgUrl, altText = 'Imagem ampliada') => {
         const fullImg = document.getElementById('lightbox-full-img');
         if (fullImg) {
             fullImg.src = imgUrl;
+            fullImg.alt = altText;
         }
         lightboxModal.classList.add('open');
         document.body.style.overflow = 'hidden';
